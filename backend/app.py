@@ -398,13 +398,17 @@ Rules:
         if questions:
             print(f"🐛 DEBUG: First question structure: {json.dumps(questions[0], indent=2)}")
         
-        # Check for template placeholder data
-        has_placeholder = any(
-            "Question text?" in str(q.get('question', '')) or
-            "Option1" in str(q.get('options', [])) or
-            "Replace with" in str(q.get('question', ''))
-            for q in questions
-        )
+        # Check for template placeholder data (more lenient check)
+        has_placeholder = False
+        for q in questions:
+            question_text = str(q.get('question', ''))
+            options_text = str(q.get('options', []))
+            
+            if (("Question text?" in question_text and len(question_text) < 20) or
+                ("Option1" in options_text and "Option2" in options_text and "Option3" in options_text and "Option4" in options_text) or
+                ("Replace with" in question_text and "example" in question_text.lower())):
+                has_placeholder = True
+                break
         
         if has_placeholder:
             print(f" WARNING: Response contains template placeholder text")
