@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: insightpdf-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: ANTHROPIC_API_KEY
+        sync: false
+    healthCheckPath: /health
+    autoDeploy: true
+
+  - type: web
+    name: insightpdf-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://insightpdf-backend.onrender.com
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://insightpdf-backend.onrender.com/*
+      - type: rewrite
+        source: /*
+        destination: /index.html

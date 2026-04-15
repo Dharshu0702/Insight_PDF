@@ -11,7 +11,7 @@ import re
 # Load environment variables
 load_dotenv()
 
-app = Flask(__name__, static_folder='../frontend', static_url_path='')
+app = Flask(__name__)
 CORS(app)
 
 # Session storage for PDFs (keyed by session ID)
@@ -466,5 +466,6 @@ def health_check():
 
 
 if __name__ == '__main__':
-    print(" Backend running on http://localhost:5000")
-    app.run(debug=False, port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    print(f" Backend running on port {port}")
+    app.run(debug=False, host='0.0.0.0', port=port)
