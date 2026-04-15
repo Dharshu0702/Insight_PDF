@@ -89,6 +89,23 @@ def call_qwen_api(system_prompt, user_message):
 
 # ==================== API ENDPOINTS ====================
 
+@app.route('/', methods=['GET'])
+def home():
+    """Root route - API info"""
+    return jsonify({
+        "message": "InsightPDF Backend API",
+        "version": "1.0.0",
+        "endpoints": [
+            "POST /upload - Upload PDF",
+            "POST /ask - Ask questions about PDF",
+            "POST /summarize - Generate summary",
+            "POST /quiz - Generate quiz",
+            "GET /conversation - Get conversation history",
+            "POST /clear - Clear data",
+            "GET /health - Health check"
+        ]
+    }), 200
+
 @app.route('/upload', methods=['POST'])
 def upload_pdf():
     """Upload PDF and extract text"""
