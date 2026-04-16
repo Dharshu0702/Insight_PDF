@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 function QuizComponent({ quiz, msgIndex, quizState, onUpdateQuizState }) {
+  // Vercel build fix v4
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
