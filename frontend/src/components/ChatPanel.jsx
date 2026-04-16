@@ -195,6 +195,7 @@ export default function ChatPanel({ messages, loading, onSendMessage, pdfLoaded 
 }
 
 function QuizComponent({ quiz, msgIndex, quizState, onUpdateQuizState }) {
+  // Quiz display component - fixed data structure issue
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
