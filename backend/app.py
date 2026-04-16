@@ -297,11 +297,16 @@ CRITICAL RULES:
 - Replace the example with {num_questions} real questions from the provided text
 - ONLY output the JSON object
 - NO explanation, NO markdown, NO other text
-- The "questions" array MUST contain exactly {num_questions} question objects"""
-        
-        user_message = f"""Create {num_questions} JSON quiz questions from:
-{pdf_content[:3000]}"""
-        
+- The "questions" array MUST contain exactly {num_questions} question objects
+- Do NOT generate fewer than {num_questions} questions"""
+
+        user_message = f"""Create exactly {num_questions} different quiz questions from this text. Each question must have 4 options (A, B, C, D) with one correct answer and an explanation.
+
+Text to create questions from:
+{pdf_content[:5000]}
+
+IMPORTANT: You must create exactly {num_questions} questions. If the text is short, create questions about different aspects of the same content."""
+
         response = call_qwen_api(system_prompt, user_message)
         
         if not response:
