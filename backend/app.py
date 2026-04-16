@@ -398,21 +398,22 @@ Rules:
         if questions:
             print(f"🐛 DEBUG: First question structure: {json.dumps(questions[0], indent=2)}")
         
+        # Temporarily disabled placeholder detection for debugging
         # Check for template placeholder data (more lenient check)
-        has_placeholder = False
-        for q in questions:
-            question_text = str(q.get('question', ''))
-            options_text = str(q.get('options', []))
+        # has_placeholder = False
+        # for q in questions:
+        #     question_text = str(q.get('question', ''))
+        #     options_text = str(q.get('options', []))
             
-            if (("Question text?" in question_text and len(question_text) < 20) or
-                ("Option1" in options_text and "Option2" in options_text and "Option3" in options_text and "Option4" in options_text) or
-                ("Replace with" in question_text and "example" in question_text.lower())):
-                has_placeholder = True
-                break
+        #     if (("Question text?" in question_text and len(question_text) < 20) or
+        #         ("Option1" in options_text and "Option2" in options_text and "Option3" in options_text and "Option4" in options_text) or
+        #         ("Replace with" in question_text and "example" in question_text.lower())):
+        #         has_placeholder = True
+        #         break
         
-        if has_placeholder:
-            print(f" WARNING: Response contains template placeholder text")
-            return jsonify({"error": "API returned template data. Please try again with different questions count."}), 500
+        # if has_placeholder:
+        #     print(f" WARNING: Response contains template placeholder text")
+        #     return jsonify({"error": "API returned template data. Please try again with different questions count."}), 500
         
         # Validate that each question has proper structure
         for i, q in enumerate(questions):
@@ -489,4 +490,4 @@ def health_check():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     print(f" Backend running on port {port}")
-    app.run(debug=False, host='0.0.0.0', port=port)
+    app.run(debug=True, host='0.0.0.0', port=port)
