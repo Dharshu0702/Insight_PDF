@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 
 function QuizComponent({ quiz, msgIndex, quizState, onUpdateQuizState }) {
-  // Quiz display component - fixed data structure issue v3
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
-  // Validate quiz data
   const hasValidQuestions = quiz?.questions && Array.isArray(quiz.questions) && quiz.questions.length > 0;
   const hasPlaceholderData = hasValidQuestions && quiz.questions.some(q => 
     q.question?.includes('Question text?') || 
@@ -52,27 +50,19 @@ function QuizComponent({ quiz, msgIndex, quizState, onUpdateQuizState }) {
   };
 
   const handleSubmitQuiz = () => {
-    console.log('ð Quiz Submit - Full quiz data:', JSON.stringify(quiz, null, 2));
-    console.log('ð Quiz Submit - User answers:', quizState);
-    
     let correct = 0;
     quiz.questions?.forEach((q, i) => {
       const userAnswer = quizState[i];
       const correctAnswer = q.correct_option;
       
-      // Normalize answers for comparison
       const normalizedUserAnswer = userAnswer ? userAnswer.trim() : '';
       const normalizedCorrectAnswer = correctAnswer ? correctAnswer.trim() : '';
       
-      console.log(`Q${i+1}: User="${normalizedUserAnswer}" vs Correct="${normalizedCorrectAnswer}" -> Match=${normalizedUserAnswer.toLowerCase() === normalizedCorrectAnswer.toLowerCase()}`);
-      
-      // Compare case-insensitively
       if (normalizedUserAnswer.toLowerCase() === normalizedCorrectAnswer.toLowerCase()) {
         correct++;
       }
     });
     const percentage = Math.round((correct / quiz.questions.length) * 100);
-    console.log(` Score: ${correct}/${quiz.questions.length} = ${percentage}%`);
     setScore(percentage);
     setSubmitted(true);
   };
