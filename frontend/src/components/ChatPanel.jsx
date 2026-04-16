@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 
 function QuizComponent({ quiz, msgIndex, quizState, onUpdateQuizState }) {
-  // Vercel build fix v4
-  console.log('🐛 QuizComponent received quiz:', JSON.stringify(quiz, null, 2));
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
   const hasValidQuestions = quiz?.questions && Array.isArray(quiz.questions) && quiz.questions.length > 0;
-  const hasPlaceholderData = false; // Temporarily disabled for debugging
-  console.log('🐛 hasValidQuestions:', hasValidQuestions, 'quiz.questions:', quiz?.questions);
+  const hasPlaceholderData = hasValidQuestions && quiz.questions.some(q =>
+    q.question?.includes('Question text?') ||
+    q.options?.some(opt => opt?.includes('Option1') || opt?.includes('Option2'))
+  );
 
   if (!hasValidQuestions || hasPlaceholderData) {
     return (
@@ -244,7 +244,7 @@ export default function ChatPanel({ messages, loading, onSendMessage, pdfLoaded 
                 </div>
               ) : msg.type === 'quiz' ? (
                 <QuizComponent
-                  quiz={msg.content.quiz}
+                  quiz={msg.content}
                   msgIndex={idx}
                   quizState={quizStates[idx] || {}}
                   onUpdateQuizState={(state) => {
