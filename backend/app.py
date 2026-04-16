@@ -443,6 +443,13 @@ Rules:
         for i, q in enumerate(questions[:2]):  # Show first 2 questions
             print(f"  Q{i+1}: correct_option = {q.get('correct_option')} (type: {type(q.get('correct_option'))})")
         
+        if isinstance(quiz_data, dict) and 'questions' in quiz_data:
+            quiz_data = quiz_data['questions']
+        elif isinstance(quiz_data, list):
+            quiz_data = {'questions': quiz_data}
+        else:
+            quiz_data = {'questions': [quiz_data]}
+        
         return jsonify({"success": True, "quiz": quiz_data}), 200
     
     except Exception as e:
