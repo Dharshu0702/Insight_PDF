@@ -84,7 +84,7 @@ export default function ChatPanel({ messages, loading, onSendMessage, pdfLoaded 
                 </div>
               ) : msg.type === 'quiz' ? (
                 <QuizComponent
-                  quiz={msg.content}
+                  quiz={msg.content.quiz}
                   msgIndex={idx}
                   quizState={quizStates[idx] || {}}
                   onUpdateQuizState={(state) => {
