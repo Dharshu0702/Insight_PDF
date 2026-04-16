@@ -51,7 +51,7 @@ def call_qwen_api(system_prompt, user_message):
         print(f"📤 System prompt length: {len(system_prompt)}")
         print(f"📤 User message length: {len(user_message)}")
         
-        response = requests.post(API_URL, headers=headers, json=payload, timeout=60)
+        response = requests.post(API_URL, headers=headers, json=payload, timeout=180)
         response.raise_for_status()
         
         result = response.json()
