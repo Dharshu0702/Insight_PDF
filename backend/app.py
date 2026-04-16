@@ -292,10 +292,12 @@ def generate_quiz():
   ]
 }}
 
-Rules:
-- Replace the example with {num_questions} real questions
+CRITICAL RULES:
+- You MUST generate EXACTLY {num_questions} questions - not more, not less
+- Replace the example with {num_questions} real questions from the provided text
 - ONLY output the JSON object
-- NO explanation, NO markdown, NO other text"""
+- NO explanation, NO markdown, NO other text
+- The "questions" array MUST contain exactly {num_questions} question objects"""
         
         user_message = f"""Create {num_questions} JSON quiz questions from:
 {pdf_content[:3000]}"""
